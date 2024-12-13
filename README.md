@@ -1,6 +1,7 @@
 # Calendar App
 
 An Event Calendar for managing events
+(made as an task for Dacoid Digital Internship)
 
 ## Features
 
@@ -15,7 +16,7 @@ An Event Calendar for managing events
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/AdityaBhate/event-calendar-app.git
+   git clone [https://github.com/AdityaBhate/event-calendar-app.git](https://github.com/AdityaBhate/event-calendar-app.git)
    cd event-calendar-app
    ```
 
