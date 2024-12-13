@@ -1,5 +1,7 @@
 # Calendar App
 
+An Event Calendar for managing events
+
 ## Features
 
 - A cool calendar design

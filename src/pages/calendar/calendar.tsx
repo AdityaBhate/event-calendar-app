@@ -1,4 +1,12 @@
-import React, { useState } from "react";
+interface Event {
+	name: string;
+	startTime: string;
+	endTime: string;
+	description: string;
+	type: string;
+}
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
@@ -25,7 +33,12 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
-const EVENT_COLORS = {
+type EventType = "work" | "personal" | "others";
+
+const EVENT_COLORS: Record<
+	EventType,
+	{ dot: string; background: string; border: string }
+> = {
 	work: {
 		dot: "bg-blue-600",
 		background: "bg-blue-100",
@@ -45,17 +58,19 @@ const EVENT_COLORS = {
 
 export const Calendar = () => {
 	const [currentDate, setCurrentDate] = useState(new Date());
-	const [events, setEvents] = useState({});
-	const [selectedDay, setSelectedDay] = useState(null);
+	const [events, setEvents] = useState<{ [key: string]: Event[] }>({});
+	const [selectedDay, setSelectedDay] = useState<number | null>(null);
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-	const [newEvent, setNewEvent] = useState({
+	const [newEvent, setNewEvent] = useState<Event>({
 		name: "",
 		startTime: "",
 		endTime: "",
 		description: "",
 		type: "work",
 	});
-	const [editingEventIndex, setEditingEventIndex] = useState(null);
+	const [editingEventIndex, setEditingEventIndex] = useState<number | null>(
+		null
+	);
 
 	const daysInWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 	const startOfMonth = new Date(
@@ -83,7 +98,7 @@ export const Calendar = () => {
 
 	const addEvent = () => {
 		if (
-			selectedDay &&
+			selectedDay !== null &&
 			newEvent.name.trim() &&
 			newEvent.startTime &&
 			newEvent.endTime
@@ -92,7 +107,7 @@ export const Calendar = () => {
 				currentDate.getMonth() + 1
 			}-${selectedDay}`;
 
-			const eventToAdd = {
+			const eventToAdd: Event = {
 				name: newEvent.name.trim(),
 				startTime: newEvent.startTime,
 				endTime: newEvent.endTime,
@@ -128,7 +143,7 @@ export const Calendar = () => {
 		}
 	};
 
-	const deleteEvent = (eventKey, index) => {
+	const deleteEvent = (eventKey: string, index: number) => {
 		const updatedEvents = [...(events[eventKey] || [])];
 		updatedEvents.splice(index, 1);
 		setEvents((prev) => ({
@@ -137,7 +152,7 @@ export const Calendar = () => {
 		}));
 	};
 
-	const handleDayClick = (day) => {
+	const handleDayClick = (day: number) => {
 		setSelectedDay(day);
 		setIsDrawerOpen(true);
 	};
@@ -177,6 +192,7 @@ export const Calendar = () => {
 							{eventTypes.map((type, index) => (
 								<div
 									key={type}
+									//@ts-expect-error
 									className={`w-2 h-2 rounded-full ${EVENT_COLORS[type].dot}`}
 									style={{ zIndex: index }}></div>
 							))}
@@ -338,7 +354,9 @@ export const Calendar = () => {
 											<div
 												key={index}
 												className={`border p-3 rounded mb-2 flex justify-between items-center ${
+													//@ts-expect-error
 													EVENT_COLORS[event.type].background
+													//@ts-expect-error
 												} ${EVENT_COLORS[event.type].border}`}>
 												<div>
 													<h4 className='font-medium'>{event.name}</h4>
