@@ -1,5 +1,7 @@
 # Calendar App
-
+ An Event Calendar for managing events 
+(made as an task for Dacoid Digital Internship)
+ 
 ## Features
 
 - A cool calendar design
